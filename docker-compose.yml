@@ -1,0 +1,26 @@
+services:
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=${DEBUG}
+      - SECRET_KEY=${SECRET_KEY}
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+    command: daphne -b 0.0.0.0 -p 8000 blog_django.asgi:application
+
+volumes:
+  redis_data:

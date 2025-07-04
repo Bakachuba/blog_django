@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blog CRUD Test</title>
+</head>
+<body>
+<h2>WebSocket Events</h2>
+<ul id="events"></ul>
+
+<script>
+    const socket = new WebSocket('ws://localhost:8000/ws/notifications/');
+
+    socket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        const li = document.createElement('li');
+        li.textContent = `${data.event}: ${JSON.stringify(data.data)}`;
+        document.getElementById('events').appendChild(li);
+    };
+</script>
+
+<h1>
+    <title>Test Interface</title>
+</h1>
+
+<h1>API Test Interface</h1>
+<button onclick="createCreator()">Create Creator</button>
+<button onclick="getPosts()">List Posts</button>
+<h2>WebSocket Notifications</h2>
+<div id="notifications"></div>
+<script src="/static/app.js"></script>
+
+</body>
+</html>

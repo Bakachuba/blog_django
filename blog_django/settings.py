@@ -26,7 +26,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'drf_spectacular',
     'rest_framework',
+    'drf_yasg',
+    'channels',
 
     'app',
 ]
@@ -59,6 +62,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'blog_django.wsgi.application'
+ASGI_APPLICATION = 'blog_django.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -70,8 +74,29 @@ DATABASES = {
     }
 }
 
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
+REST_FRAMEWORK = {
+    # 'DEFAULT_RENDERER_CLASSES': [
+    #     'rest_framework.renderers.JSONRenderer',
+    # ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema"
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your Project API',
+    'DESCRIPTION': 'Your project description',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
